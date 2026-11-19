@@ -1,0 +1,33 @@
+{
+  "name": "my-server",
+  "version": "0.2.0",
+  "description": "REST API + realtime server on Express++ (C++20 / Drogon)",
+  "main": "src/main.cc",
+  "scripts": {
+    "configure": "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug",
+    "build": "cmake --build build -j",
+    "start": "./build/server",
+    "dev": "nodemonpp",
+    "test": "cmake --build build -j && ctest --test-dir build --output-on-failure",
+    "release": "cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF && cmake --build build-release -j"
+  },
+  "dependencies": {
+    "expresspp": "^0.4.2",
+    "nevla": "^0.5.0",
+    "axiospp": "^0.2.2",
+    "nodemailerpp": "^0.2.1",
+    "socketiopp": "^0.2.1",
+    "bullmqpp": "^0.2.1",
+    "cpp-telegram-bot-api": "^0.1.0"
+  },
+  "devDependencies": {
+    "nodemonpp": "^0.1.0"
+  },
+  "nodemonpp": {
+    "watch": ["src", "views", "CMakeLists.txt", ".env"],
+    "ext": ["cc", "hpp", "h", "html", "txt"],
+    "restartOnly": [".env", ".html"],
+    "exec": "./build/server",
+    "delay": 300
+  }
+}

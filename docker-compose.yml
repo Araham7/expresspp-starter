@@ -1,0 +1,30 @@
+# Everything for local development:  docker compose up -d mongo redis mailpit
+# (or the whole stack, app included:  docker compose up --build)
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+      REDIS_HOST: redis
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+    ports: ["3000:3000"]
+    volumes: ["./uploads:/app/uploads"]
+    depends_on: [mongo, redis, mailpit]
+
+  mongo:
+    image: mongo:7
+    ports: ["27017:27017"]
+    volumes: ["mongo-data:/data/db"]
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  mailpit:            # fake SMTP server: see every mail at http://localhost:8025
+    image: axllent/mailpit
+    ports: ["1025:1025", "8025:8025"]
+
+volumes:
+  mongo-data:

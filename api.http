@@ -1,0 +1,45 @@
+### Postman ki jagah: VS Code "REST Client" extension se har request ke upar "Send Request" dabao
+@base = http://localhost:3000/api/v1
+
+GET {{base}}/health
+
+### Register
+# @name reg
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{ "name": "Araham", "email": "araham@example.com", "password": "supersecret1" }
+
+### Login
+# @name login
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{ "email": "araham@example.com", "password": "supersecret1" }
+
+### Me
+@token = {{login.response.body.data.token}}
+GET {{base}}/users/me
+Authorization: Bearer {{token}}
+
+### Create a post
+# @name post
+POST {{base}}/posts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "Hello Express++", "body": "My first C++ backend", "tags": ["cpp"], "published": true }
+
+### List posts
+GET {{base}}/posts?tags=cpp&sort=-createdAt&page=1&limit=10
+
+### Update
+PATCH {{base}}/posts/{{post.response.body.data._id}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "Updated title" }
+
+### Delete
+DELETE {{base}}/posts/{{post.response.body.data._id}}
+Authorization: Bearer {{token}}

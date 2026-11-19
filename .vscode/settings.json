@@ -1,0 +1,5 @@
+{
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "clangd.arguments": ["--compile-commands-dir=${workspaceFolder}/build", "--header-insertion=never"],
+  "files.associations": { "*.hpp": "cpp" }
+}
